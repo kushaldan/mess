@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.PopupWindow
-
 
 class DetailsPopup(private val context: Context) {
 
@@ -18,106 +18,63 @@ class DetailsPopup(private val context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.popup_details, null)
 
-        // Set up the WebView inside the PopupWindow
+        // Initialize WebView and Button
         val detailsWebView: WebView = popupView.findViewById(R.id.detailsWebView)
         val closeButton: Button = popupView.findViewById(R.id.closeButton)
 
-        // Set up WebView for displaying details
-        detailsWebView.settings.javaScriptEnabled = true
-        detailsWebView.settings.loadWithOverviewMode = true
-        detailsWebView.settings.useWideViewPort = true
-        detailsWebView.webViewClient = WebViewClient()
+        // Setup WebView
+        setupWebView(detailsWebView)
 
-        // Enable zoom controls and pinch-to-zoom
-        detailsWebView.settings.builtInZoomControls = true
-        detailsWebView.settings.displayZoomControls = false  // Hide zoom buttons for a cleaner UI
-
-        // Load a URL or content into the WebView
+        // Load URL into WebView
         val url = "https://legalcount.in/meal/summary.php"
         detailsWebView.loadUrl(url)
 
-        // Create and show the PopupWindow in full-screen
+        // Create PopupWindow and show it
         val popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT,
-            true  // Focusable to allow back button dismissal
+            true  // Make the popup focusable to allow back button dismissal
         )
 
-        // Ensure the popup covers the entire screen
-        popupWindow.isClippingEnabled = false
-
-        // Show the PopupWindow
+        // Show the PopupWindow centered on the screen
         popupWindow.showAtLocation(
             popupView.rootView,
             android.view.Gravity.CENTER, 0, 0
         )
 
-        // Dim the background behind the popup
+        // Dim the background
+        dimBackground(popupWindow)
+
+        // Set close button action to dismiss the PopupWindow
+        closeButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun setupWebView(webView: WebView) {
+        // Enable JavaScript and configure WebView settings
+        val settings: WebSettings = webView.settings
+        settings.javaScriptEnabled = true
+        settings.loadWithOverviewMode = true
+        settings.useWideViewPort = true
+
+        // Enable pinch-to-zoom and hide zoom controls for cleaner UI
+        settings.setSupportZoom(true)
+        settings.builtInZoomControls = true
+        settings.displayZoomControls = false
+
+        // Set WebViewClient to handle redirects within the WebView itself
+        webView.webViewClient = WebViewClient()
+    }
+
+    private fun dimBackground(popupWindow: PopupWindow) {
+        // Dim the background of the screen when the PopupWindow is shown
         val container = popupWindow.contentView.parent as View
         val layoutParams = container.layoutParams as WindowManager.LayoutParams
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-        layoutParams.dimAmount = 0.5f
+        layoutParams.dimAmount = 0.5f  // Adjust the dim amount (0.0f to 1.0f)
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         windowManager.updateViewLayout(container, layoutParams)
-
-        // Close button action
-        closeButton.setOnClickListener {
-            popupWindow.dismiss()  // Close the PopupWindow
-        }
     }
 }
-
-//
-//class DetailsPopup(private val context: Context) {
-//
-//    fun showFloatingDetailsPage() {
-//        // Inflate the popup layout
-//        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val popupView = inflater.inflate(R.layout.popup_details, null)
-//
-//        // Set up the WebView inside the PopupWindow
-//        val detailsWebView: WebView = popupView.findViewById(R.id.detailsWebView)
-//        val closeButton: Button = popupView.findViewById(R.id.closeButton)
-//
-//        // Set up WebView for displaying details
-//        detailsWebView.settings.javaScriptEnabled = true
-//        detailsWebView.settings.loadWithOverviewMode = true
-//        detailsWebView.settings.useWideViewPort = true
-//        detailsWebView.webViewClient = WebViewClient()
-//
-//        // Load a URL or content into the WebView
-//        val url = "https://legalcount.in/mess_tv.php"
-//        detailsWebView.loadUrl(url)
-//
-//        // Create and show the PopupWindow in full-screen
-//        val popupWindow = PopupWindow(
-//            popupView,
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            true  // Focusable to allow back button dismissal
-//        )
-//
-//        // Ensure the popup covers the entire screen
-//        popupWindow.isClippingEnabled = false
-//
-//        // Show the PopupWindow
-//        popupWindow.showAtLocation(
-//            popupView.rootView,
-//            android.view.Gravity.CENTER, 0, 0
-//        )
-//
-//        // Dim the background behind the popup
-//        val container = popupWindow.contentView.parent as View
-//        val layoutParams = container.layoutParams as WindowManager.LayoutParams
-//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-//        layoutParams.dimAmount = 0.5f
-//        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-//        windowManager.updateViewLayout(container, layoutParams)
-//
-//        // Close button action
-//        closeButton.setOnClickListener {
-//            popupWindow.dismiss()  // Close the PopupWindow
-//        }
-//    }
-//}
