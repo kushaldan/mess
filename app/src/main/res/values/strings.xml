@@ -1,0 +1,38 @@
+<resources>
+    <!-- Name array for the first Spinner -->
+    <string-array name="name_array">
+        <item>Select a name</item>
+        <item>Badal Dan</item>
+        <item>Nandjee Prasad</item>
+        <item>Chittaranjan Das</item>
+        <item>Adwaita Mandal</item>
+    </string-array>
+
+    <!-- Item array for the second Spinner -->
+    <string-array name="item_array">
+        <item>Select an item</item>
+        <item>Grocery</item>
+        <item>Vegetable</item>
+        <item>Mutton</item>
+        <item>Chicken</item>
+        <item>Fish</item>
+        <item>Sweets</item>
+        <item>Others</item>
+        <item>Admin</item>
+        <item>Meal</item>
+        <item>Deposit</item>
+    </string-array>
+
+    <!-- Meal array for the third Spinner -->
+    <string-array name="meal_array">
+        <item>Select a meal</item>
+        <item>2</item>
+        <item>1</item>
+        <item>-1</item>
+        <item>-2</item>
+
+    </string-array>
+
+    <string name="app_name">Mess</string>
+    <string name="price">Price</string>
+</resources>
