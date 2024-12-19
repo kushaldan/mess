@@ -6,47 +6,97 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/homeButton"
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go to Main Page"/>
+        android:layout_height="297dp"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/addMealButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Meal"/>
+        <!-- Home Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:text="Go to Main Page"
+            android:textColor="#000000" />
 
-    <Button
-        android:id="@+id/addExpenditureButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Expenditure"/>
+        <!-- Add Meal Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/addMealButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:text="Add Meal"
+            android:textColor="#000000" />
 
-    <Button
-        android:id="@+id/addDepositButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Deposit"/>
+        <!-- Add Expenditure Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/addExpenditureButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:text="Add Expenditure"
+            android:textColor="#000000" />
 
-    <Button
-        android:id="@+id/viewDetailsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="View Details"
-        android:visibility="visible"
-        tools:visibility="visible" />
-    <Button
-    android:id="@+id/expSummmaryButton"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:text="Summary"
-    android:visibility="visible"
-    tools:visibility="visible" />
-<!--    <Button-->
+        <!-- Add Deposit Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/addDepositButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Add Deposit"
+            android:textColor="#000000" />
+
+        <!-- View Details Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/viewDetailsButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="View Details"
+            android:textColor="#000000" />
+
+        <!-- Summary Button (Square with border and custom color) -->
+        <Button
+            android:id="@+id/expSummmaryButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Summary"
+            android:textColor="#000000" />
+
+    </GridLayout>
+
+
+
+    <!--    <Button-->
 <!--        android:id="@+id/showChartButton"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -56,9 +106,9 @@
     <!-- Container for the chart -->
     <FrameLayout
         android:id="@+id/chartContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_width="386dp"
+        android:layout_height="534dp"
+        android:layout_weight="1" />
 
 
 </LinearLayout>
