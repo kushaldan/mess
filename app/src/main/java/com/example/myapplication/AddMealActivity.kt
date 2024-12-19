@@ -100,7 +100,7 @@ class AddMealActivity : AppCompatActivity() {
     }
 
     private fun submitForm(name: String, meal: String) {
-        val url = "https://legalcount.in/submit_data.php"
+        val url = "https://legalcount.in/meal/mealupdate.php"
 
         val stringRequest = object : StringRequest(Request.Method.POST, url,
             Response.Listener { response ->

@@ -22,7 +22,10 @@ class AddExpenditureActivity : AppCompatActivity() {
     private lateinit var dateButton: Button
     private lateinit var dateTextView: TextView
     private lateinit var resetButton: Button
+    private lateinit var nameTextView: TextView
     private lateinit var requestQueue: RequestQueue
+    private lateinit var mealTextView: TextView
+    private lateinit var priceInput: EditText
     private var selectedDate: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,7 @@ class AddExpenditureActivity : AppCompatActivity() {
         // Initialize views
         itemSpinner = findViewById(R.id.itemSpinner)
         expenditureInput = findViewById(R.id.expenditureInput)
+        priceInput = findViewById(R.id.priceInput)
         submitButton = findViewById(R.id.submitButton)
         dateButton = findViewById(R.id.dateButton)
         dateTextView = findViewById(R.id.dateTextView)
@@ -95,13 +99,16 @@ class AddExpenditureActivity : AppCompatActivity() {
     private fun submitForm() {
         val item = itemSpinner.selectedItem.toString()
         val expenditure = expenditureInput.text.toString()
+        val name = intent.getStringExtra("name") ?: ""
+        val meal = intent.getStringExtra("meal") ?: ""
+        val price = intent.getStringExtra("price") ?: ""
 
         // Show the preview dialog before submitting
-        showPreviewDialog(item, expenditure)
+        showPreviewDialog(name, item, meal, expenditure, price)
     }
 
-    private fun submitForm(item: String, expenditure: String) {
-        val url = "https://legalcount.in/submit_data.php"
+    private fun submitForm(name: String, item: String, meal: String, expenditure: String, price: String) {
+        val url = "https://legalcount.in/meal/mealupdate.php"
 
         val stringRequest = object : StringRequest(Request.Method.POST, url,
             Response.Listener { response ->
@@ -119,9 +126,12 @@ class AddExpenditureActivity : AppCompatActivity() {
             }) {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
+                params["name"]=name
                 params["item"] = item
+                params["meal"]=meal
                 params["expenditure"] = expenditure
                 params["date"] = selectedDate
+                params["price"]=price
                 return params
             }
         }
@@ -129,7 +139,7 @@ class AddExpenditureActivity : AppCompatActivity() {
         requestQueue.add(stringRequest)
     }
 
-    private fun showPreviewDialog(item: String, expenditure: String) {
+    private fun showPreviewDialog(name: String, item: String, meal: String, expenditure: String, price: String) {
         // Create the preview message
         val previewMessage = """
             Item: $item
@@ -146,7 +156,7 @@ class AddExpenditureActivity : AppCompatActivity() {
 
         // Add buttons
         alertDialogBuilder.setPositiveButton("Submit") { _, _ ->
-            submitForm(item, expenditure)
+            submitForm(name, item, meal, expenditure, price)
         }
 
         alertDialogBuilder.setNegativeButton("Edit") { _, _ ->
