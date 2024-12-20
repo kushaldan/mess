@@ -1,114 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="297dp"
-        android:layout_gravity="center"
-        android:columnCount="2"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Home Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:text="Go to Main Page"
-            android:textColor="#000000" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="359dp"
+            android:layout_gravity="center"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-        <!-- Add Meal Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/addMealButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_green_light"
-            android:text="Add Meal"
-            android:textColor="#000000" />
+            <!-- Home Button -->
+            <Button
+                android:id="@+id/homeButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:text="Main Page"
+                android:textColor="#000000" />
 
-        <!-- Add Expenditure Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/addExpenditureButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_orange_light"
-            android:text="Add Expenditure"
-            android:textColor="#000000" />
+            <!-- Add Meal Button -->
+            <Button
+                android:id="@+id/addMealButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:text="Add Meal"
+                android:textColor="#000000" />
 
-        <!-- Add Deposit Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/addDepositButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:text="Add Deposit"
-            android:textColor="#000000" />
+            <!-- Add Expenditure Button -->
+            <Button
+                android:id="@+id/addExpenditureButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/holo_orange_light"
+                android:text="Add Expenditure"
+                android:textColor="#000000" />
 
-        <!-- View Details Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/viewDetailsButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:text="View Details"
-            android:textColor="#000000" />
+            <!-- Add Deposit Button -->
+            <Button
+                android:id="@+id/addDepositButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="Add Deposit"
+                android:textColor="#000000" />
 
-        <!-- Summary Button (Square with border and custom color) -->
-        <Button
-            android:id="@+id/expSummmaryButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:text="Summary"
-            android:textColor="#000000" />
+            <!-- View Details Button -->
+            <Button
+                android:id="@+id/viewDetailsButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="View Details"
+                android:textColor="#000000" />
 
-    </GridLayout>
+            <!-- Summary Button -->
+            <Button
+                android:id="@+id/expSummmaryButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@color/bordercolor"
+                android:text="Summary"
+                android:textColor="#050505" />
 
+            <!-- Sign Up Button -->
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@color/bordercolor"
+                android:text="Sign Up"
+                android:textColor="#050505" />
 
+            <!-- Login Button -->
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@color/bordercolor"
+                android:text="Login"
+                android:textColor="#050505" />
 
-    <!--    <Button-->
-<!--        android:id="@+id/showChartButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Show Chart"-->
-<!--        android:layout_marginTop="20dp" />-->
+            <!-- Placeholder Button -->
+            <Button
+                android:id="@+id/placeholderButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@android:color/darker_gray"
+                android:text="Placeholder"
+                android:textColor="#FFFFFF" />
 
-    <!-- Container for the chart -->
-    <FrameLayout
-        android:id="@+id/chartContainer"
-        android:layout_width="386dp"
-        android:layout_height="534dp"
-        android:layout_weight="1" />
+        </GridLayout>
 
+        <!-- Container for the chart -->
+        <FrameLayout
+            android:id="@+id/chartContainer"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_weight="1" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
