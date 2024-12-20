@@ -87,7 +87,7 @@ class AddExpenditureActivity : AppCompatActivity() {
             enableSubmitButton()
         }, year, month, day)
 
-        datePickerDialog.show()git remote rename github origin
+        datePickerDialog.show()
 
     }
 
