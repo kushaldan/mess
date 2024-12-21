@@ -33,8 +33,11 @@ class Login1 : AppCompatActivity() {
     private fun authenticateUser(username: String, password: String) {
         val apiService = RetrofitInstance.api // Assuming RetrofitInstance.api is correctly initialized
 
-        // Create a login request
-        val call = apiService.loginUser(username, password)
+        // Create the login request object
+        val loginRequest = LoginRequest(username, password)
+
+        // Call the loginUser method from Retrofit service
+        val call = apiService.loginUser(loginRequest)
 
         call.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -44,7 +47,7 @@ class Login1 : AppCompatActivity() {
                         // Show success message and move to next screen
                         Toast.makeText(this@Login1, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                        // Start next activity
+                        // Start the next activity
                         val intent = Intent(this@Login1, SummaryPopup::class.java)
                         startActivity(intent)
                         finish() // Close the login activity to prevent going back
@@ -52,7 +55,7 @@ class Login1 : AppCompatActivity() {
                         Toast.makeText(this@Login1, "Invalid username or password", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Handle failure, like server errors
+                    // Handle failure (e.g., server errors)
                     Toast.makeText(this@Login1, "Login Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
