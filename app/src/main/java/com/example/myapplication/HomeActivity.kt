@@ -1,6 +1,9 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -15,12 +18,22 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val homeButton: Button = findViewById(R.id.homeButton)
+        //homeButton.setBackgroundColor(Color.parseColor("#00FF00")) // Green color
         val addMealButton: Button = findViewById(R.id.addMealButton)
         val addExpenditureButton: Button = findViewById(R.id.addExpenditureButton)
         val addDepositButton: Button = findViewById(R.id.addDepositButton)
         val viewDetailsButton: Button = findViewById(R.id.viewDetailsButton)
         val chartContainer: FrameLayout = findViewById(R.id.chartContainer)
         val expSummaryButton: Button = findViewById(R.id.expSummmaryButton)
+        val drawable = homeButton.background
+       // if (drawable is GradientDrawable) {
+            // Change the background color to green while keeping the rounded corners
+            //drawable.setColor(Color.parseColor("#00FF00"))  // Green color
+        //}
+
+
+// Change the background color using backgroundTint (this works if the drawable has no solid color)
+        homeButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F")) // Green color
 
         // Initialize WebView
         val chartWebView: WebView = WebView(this)
