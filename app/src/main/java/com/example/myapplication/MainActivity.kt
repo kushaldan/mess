@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -13,6 +14,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.myapplication.R.id
 import org.json.JSONObject
 import java.util.*
 
@@ -33,23 +35,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var showChartButton: Button
     private var selectedDate: String = ""
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Initialize views
-        nameSpinner = findViewById(R.id.nameSpinner)
-        itemSpinner = findViewById(R.id.itemSpinner)
-        mealSpinner = findViewById(R.id.mealSpinner)
-        expenditureInput = findViewById(R.id.expenditureInput)
-        priceInput = findViewById(R.id.priceInput)
-        submitButton = findViewById(R.id.submitButton)
-        dateButton = findViewById(R.id.dateButton)
-        dateTextView = findViewById(R.id.dateTextView)
-        viewDetailsButton = findViewById(R.id.viewDetailsButton)
-        calculatorButton = findViewById(R.id.calculatorButton)
-        backToHomeButton = findViewById(R.id.backToHomeButton)
-        showChartButton = findViewById(R.id.showChartButton)
+        nameSpinner = findViewById(id.nameSpinner)
+        itemSpinner = findViewById(id.itemSpinner)
+        mealSpinner = findViewById(id.mealSpinner)
+        expenditureInput = findViewById(id.expenditureInput)
+        priceInput = findViewById(id.priceInput)
+        submitButton = findViewById(id.submitButton)
+        dateButton = findViewById(id.dateButton)
+        dateTextView = findViewById(id.dateTextView)
+        viewDetailsButton = findViewById(id.viewDetailsButton)
+        calculatorButton = findViewById(id.calculatorButton)
+        backToHomeButton = findViewById(id.backToHomeButton)
+        showChartButton = findViewById(id.showChartButton)
 
         // Initialize the Volley request queue
         requestQueue = Volley.newRequestQueue(this)
@@ -217,6 +220,7 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun resetForm() {
         expenditureInput.text.clear()
         priceInput.text.clear()

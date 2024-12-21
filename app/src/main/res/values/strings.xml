@@ -35,4 +35,13 @@
 
     <string name="app_name">Mess</string>
     <string name="price">Price</string>
+    <string name="welcome_to_mess">Welcome to Mess</string>
+    <string name="expenditure_details">Expenditure Details</string>
+    <string name="select_date">Select Date</string>
+    <string name="no_date_selected">No date selected</string>
+    <string name="submit">Submit</string>
+    <string name="view_details">View Details</string>
+    <string name="open_calculator">Open Calculator</string>
+    <string name="home">Home</string>
+    <string name="show_chart">Show Chart</string>
 </resources>
