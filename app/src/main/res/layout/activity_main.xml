@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="WebViewLayout">
 
         <!-- Title Text -->
         <TextView
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:text="Welcome to Mess"
+            android:text="@string/welcome_to_mess"
             android:textColor="#000000"
             android:textSize="24sp"
             android:visibility="visible"
@@ -48,7 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Expenditure Details"
+            android:autofillHints=""
+            android:hint="@string/expenditure_details"
             android:inputType="text" />
 
         <!-- Price Input -->
@@ -57,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:autofillHints=""
             android:hint="Price"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
@@ -77,14 +80,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Select Date" />
+            android:text="@string/select_date" />
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="No date selected"
+            android:text="@string/no_date_selected"
             android:textSize="16sp" />
 
 
@@ -95,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:enabled="false"
-            android:text="Submit" />
+            android:text="@string/submit" />
 
         <!-- View Details Button -->
 
@@ -105,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="View Details"
+            android:text="@string/view_details"
             android:visibility="visible"
             tools:visibility="visible" />
 
@@ -129,19 +132,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Open Calculator" />
+            android:text="@string/open_calculator" />
         <Button
             android:id="@+id/backToHomeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"/>
+            android:text="@string/home"/>
 
         <Button
-        android:id="@+id/showChartButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show Chart"
-        android:layout_marginTop="20dp" />
+            android:id="@+id/showChartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_chart"
+            android:layout_marginTop="20dp" />
 
 
     </LinearLayout>
