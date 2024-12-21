@@ -34,6 +34,8 @@
         <activity android:name=".SummaryPopup"
             android:exported="true"
             tools:ignore="Instantiatable" />
+        <activity android:name=".SignupActivity" />
+
 
 
     </application>

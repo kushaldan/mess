@@ -3,13 +3,14 @@ package com.example.myapplication
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -25,16 +26,25 @@ class HomeActivity : AppCompatActivity() {
         val viewDetailsButton: Button = findViewById(R.id.viewDetailsButton)
         val chartContainer: FrameLayout = findViewById(R.id.chartContainer)
         val expSummaryButton: Button = findViewById(R.id.expSummmaryButton)
-        val drawable = homeButton.background
+        val placeholderButton:Button = findViewById(R.id.placeholderButton)
+        val signUpButton :Button = findViewById(R.id.signUpButton)
+        val rootView = findViewById<View>(android.R.id.content)
+       // val drawable = homeButton.background
        // if (drawable is GradientDrawable) {
             // Change the background color to green while keeping the rounded corners
             //drawable.setColor(Color.parseColor("#00FF00"))  // Green color
         //}
+        // Set a click listener on the button
+        signUpButton.setOnClickListener {
+            // Create an Intent to navigate to SignupActivity
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent) // Start the SignupActivity
+        }
 
 
 // Change the background color using backgroundTint (this works if the drawable has no solid color)
         homeButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F")) // Green color
-
+        rootView.setBackgroundColor(Color.parseColor("#AAA1CD"));
         // Initialize WebView
         val chartWebView: WebView = WebView(this)
 
