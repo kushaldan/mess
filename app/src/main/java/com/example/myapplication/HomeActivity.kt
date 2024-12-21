@@ -54,7 +54,10 @@ class HomeActivity : AppCompatActivity() {
         chartWebView.settings.setSupportZoom(true)
         chartWebView.settings.builtInZoomControls = true
         chartWebView.settings.displayZoomControls = false
-
+// Set new dimensions dynamically
+       // val layoutParams = chartContainer.layoutParams
+       // layoutParams.height = 1000 // Set height in pixels
+       // chartContainer.layoutParams = layoutParams
         // Set WebViewClient to handle page navigation within the WebView
         chartWebView.webViewClient = WebViewClient()
 
@@ -115,4 +118,5 @@ class HomeActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         return sharedPreferences.getBoolean("isLoggedIn", false)
     }
+
 }
