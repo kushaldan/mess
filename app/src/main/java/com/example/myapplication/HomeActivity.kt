@@ -28,6 +28,7 @@ class HomeActivity : AppCompatActivity() {
         val expSummaryButton: Button = findViewById(R.id.expSummmaryButton)
         val placeholderButton:Button = findViewById(R.id.placeholderButton)
         val signUpButton :Button = findViewById(R.id.signUpButton)
+        val loginButton :Button = findViewById(R.id.loginButton)
         val rootView = findViewById<View>(android.R.id.content)
        // val drawable = homeButton.background
        // if (drawable is GradientDrawable) {
@@ -39,6 +40,10 @@ class HomeActivity : AppCompatActivity() {
             // Create an Intent to navigate to SignupActivity
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent) // Start the SignupActivity
+        }
+        loginButton.setOnClickListener {
+            val intent = Intent(this, Login1::class.java)
+            startActivity(intent)
         }
 
 

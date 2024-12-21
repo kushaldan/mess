@@ -35,7 +35,7 @@
             android:exported="true"
             tools:ignore="Instantiatable" />
         <activity android:name=".SignupActivity" />
-
+        <activity android:name=".Login1" />
 
 
     </application>
