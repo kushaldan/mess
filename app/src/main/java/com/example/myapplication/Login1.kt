@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -65,7 +66,8 @@ class Login1 : AppCompatActivity() {
                         Toast.makeText(this@Login1, "Login Successful!", Toast.LENGTH_SHORT).show()
 
                         // Navigate to the next screen
-                        val intent = Intent(this@Login1, SummaryPopup::class.java)
+                        Log.d("Login1", "Navigating to SummaryPopup")
+                        val intent = Intent(this@Login1, HomeActivity::class.java)
                         startActivity(intent)
                         finish() // Close the login activity
                     } else {
