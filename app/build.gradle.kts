@@ -56,4 +56,6 @@ dependencies {
     // Gson dependency (if not using the version in the Retrofit dependency)
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+
 }

@@ -2,7 +2,10 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -10,18 +13,27 @@ import retrofit2.Response
 
 class Login1 : AppCompatActivity() {
 
+    private lateinit var usernameEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login1)
 
-        val usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-        val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        val loginButton = findViewById<Button>(R.id.loginButton)
+        // Initialize UI elements
+        usernameEditText = findViewById(R.id.usernameEditText)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        loginButton = findViewById(R.id.loginButton)
+        progressBar = findViewById(R.id.progressBar) // Ensure you have a ProgressBar in your layout
 
+        // Set up the login button click listener
         loginButton.setOnClickListener {
-            val username = usernameEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val username = usernameEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
+            // Validate input fields
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 authenticateUser(username, password)
             } else {
@@ -31,37 +43,47 @@ class Login1 : AppCompatActivity() {
     }
 
     private fun authenticateUser(username: String, password: String) {
-        val apiService = RetrofitInstance.api // Assuming RetrofitInstance.api is correctly initialized
+        // Show progress bar while making the API call
+        progressBar.visibility = ProgressBar.VISIBLE
 
-        // Create the login request object
+        // Get Retrofit API service instance
+        val apiService = RetrofitInstance.api
+
+        // Create the LoginRequest object
         val loginRequest = LoginRequest(username, password)
 
-        // Call the loginUser method from Retrofit service
-        val call = apiService.loginUser(loginRequest)
-
-        call.enqueue(object : Callback<LoginResponse> {
+        // Make the API call using loginUserWithJson
+        apiService.loginUserWithJson(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                // Hide progress bar
+                progressBar.visibility = ProgressBar.INVISIBLE
+
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    if (loginResponse != null && loginResponse.status == "success") {
-                        // Show success message and move to next screen
+                    if (loginResponse != null && loginResponse.success) {
+                        // Successful login
                         Toast.makeText(this@Login1, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                        // Start the next activity
+                        // Navigate to the next screen
                         val intent = Intent(this@Login1, SummaryPopup::class.java)
                         startActivity(intent)
-                        finish() // Close the login activity to prevent going back
+                        finish() // Close the login activity
                     } else {
-                        Toast.makeText(this@Login1, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                        // Show error message from the server
+                        val errorMessage = loginResponse?.message ?: "Invalid username or password"
+                        Toast.makeText(this@Login1, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Handle failure (e.g., server errors)
-                    Toast.makeText(this@Login1, "Login Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    // Handle server-side errors
+                    Toast.makeText(this@Login1, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                // Handle network failure or other issues
+                // Hide progress bar on failure
+                progressBar.visibility = ProgressBar.INVISIBLE
+
+                // Handle network failure or other unexpected errors
                 Toast.makeText(this@Login1, "Login Failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
