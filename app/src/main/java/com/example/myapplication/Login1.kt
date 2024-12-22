@@ -76,7 +76,7 @@ class Login1 : AppCompatActivity() {
                         Log.d("Login1", "Received token: $token")
                         saveToken(token)
 
-                        // Show the Calculator Popup
+                        // Show the Summary Popup
                         val calculatorPopup = CalculatorPopup(this@Login1)
                         calculatorPopup.showCalculatorPopup()
                     } else {
