@@ -36,7 +36,8 @@
             tools:ignore="Instantiatable" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".Login1" />
-
+        <activity android:name="CalculatorPopup"
+            tools:ignore="Instantiatable" />
 
 
     </application>

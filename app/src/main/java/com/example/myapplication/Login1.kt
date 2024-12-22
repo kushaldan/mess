@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -27,7 +26,7 @@ class Login1 : AppCompatActivity() {
         usernameEditText = findViewById(R.id.usernameEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
-        progressBar = findViewById(R.id.progressBar) // Ensure you have a ProgressBar in your layout
+        progressBar = findViewById(R.id.progressBar)
 
         // Set up the login button click listener
         loginButton.setOnClickListener {
@@ -52,6 +51,7 @@ class Login1 : AppCompatActivity() {
 
         // Create the LoginRequest object
         val loginRequest = LoginRequest(username, password)
+        Log.d("Login1", "API call initiated with username: $username")
 
         // Make the API call using loginUserWithJson
         apiService.loginUserWithJson(loginRequest).enqueue(object : Callback<LoginResponse> {
@@ -59,17 +59,26 @@ class Login1 : AppCompatActivity() {
                 // Hide progress bar
                 progressBar.visibility = ProgressBar.INVISIBLE
 
+                // Log API response details for debugging
+                Log.d("Login1", "API call response received")
+                Log.d("Login1", "Response code: ${response.code()}")
+                Log.d("Login1", "Response body: ${response.body()}")
+
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
+                    Log.d("Login1", "LoginResponse: success=${loginResponse?.success}, message=${loginResponse?.message}, token=${loginResponse?.token}")
                     if (loginResponse != null && loginResponse.success) {
                         // Successful login
                         Toast.makeText(this@Login1, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                        // Navigate to the next screen
-                        Log.d("Login1", "Navigating to SummaryPopup")
-                        val intent = Intent(this@Login1, HomeActivity::class.java)
-                        startActivity(intent)
-                        finish() // Close the login activity
+                        // Save the token for future use
+                        val token = loginResponse.token
+                        Log.d("Login1", "Received token: $token")
+                        saveToken(token)
+
+                        // Show the Calculator Popup
+                        val calculatorPopup = CalculatorPopup(this@Login1)
+                        calculatorPopup.showCalculatorPopup()
                     } else {
                         // Show error message from the server
                         val errorMessage = loginResponse?.message ?: "Invalid username or password"
@@ -89,5 +98,16 @@ class Login1 : AppCompatActivity() {
                 Toast.makeText(this@Login1, "Login Failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    // Save the token for future use (e.g., in SharedPreferences)
+    private fun saveToken(token: String?) {
+        if (token != null) {
+            val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("auth_token", token)
+            editor.apply()
+            Log.d("Login1", "Token saved to SharedPreferences")
+        }
     }
 }
