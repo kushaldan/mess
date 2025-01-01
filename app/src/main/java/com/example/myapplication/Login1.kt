@@ -76,7 +76,7 @@ class Login1 : AppCompatActivity() {
                         Log.d("Login1", "Received token: $token")
                         saveToken(token)
 
-                        // Show the Summary Popup
+                        // Show the Calculator Popup
                         val calculatorPopup = CalculatorPopup(this@Login1)
                         calculatorPopup.showCalculatorPopup()
                     } else {
@@ -111,3 +111,4 @@ class Login1 : AppCompatActivity() {
         }
     }
 }
+//token is generated and login is working fine
