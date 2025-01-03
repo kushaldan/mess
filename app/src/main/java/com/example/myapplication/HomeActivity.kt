@@ -84,7 +84,7 @@ class HomeActivity : AppCompatActivity() {
             if (isLoggedIn()) {
                 navigateTo(MainActivity::class.java)
             } else {
-                navigateTo(Login1::class.java)
+                navigateTo(LoginActivity::class.java)
             }
         }
 
