@@ -90,16 +90,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Handle selection in mealSpinner
-//        mealSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                itemSpinner.isEnabled = !mealSpinner.isEnabled
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {
-//                // Do nothing
-//            }
-//        }
 
         // Set up button click listeners
         backToHomeButton.setOnClickListener {
@@ -163,8 +153,23 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun submitForm(name: String, item: String, meal: String, expenditure: String, price: String) {
+        // Retrieve the username and authentication token from SharedPreferences (or your secure storage)
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", null)
+        val token = sharedPreferences.getString("token", null)  // Assuming the token is stored under "auth_token"
+
+        if (username.isNullOrEmpty() || token.isNullOrEmpty()) {
+            Toast.makeText(this, "User not logged in. Please log in again.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // URL to submit the form
         val url = "https://legalcount.in/meal/mealupdate.php"
 
+        // Create a POST request with necessary headers and parameters
         val stringRequest = object : StringRequest(Request.Method.POST, url,
             Response.Listener { response ->
                 try {
@@ -179,8 +184,18 @@ class MainActivity : AppCompatActivity() {
             Response.ErrorListener {
                 Toast.makeText(this, "Failed to submit data", Toast.LENGTH_LONG).show()
             }) {
+
+            // Adding headers (e.g., authorization token if required by the server)
+            override fun getHeaders(): Map<String, String> {
+                val headers = mutableMapOf<String, String>()
+                headers["Authorization"] = "Bearer $token"  // Add the auth token to the headers
+                return headers
+            }
+
+            // Adding parameters (e.g., username, meal, etc.)
             override fun getParams(): Map<String, String> {
                 return hashMapOf(
+                    "username" to username,
                     "name" to name,
                     "item" to item,
                     "meal" to meal,
@@ -191,8 +206,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Add the request to the Volley queue for processing
         requestQueue.add(stringRequest)
     }
+
 
     private fun showPreviewDialog() {
         val name = nameSpinner.selectedItem.toString()

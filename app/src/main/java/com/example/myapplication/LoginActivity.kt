@@ -31,12 +31,12 @@ class LoginActivity : AppCompatActivity() {
         apiService = ApiClient.getApiClient().create(ApiService::class.java)
 
         loginButton.setOnClickListener {
-            val userId = userIdEditText.text.toString()
+            val username = userIdEditText.text.toString()
             val password = passwordEditText.text.toString()
 
             // Basic validation
-            if (userId.isNotEmpty() && password.isNotEmpty()) {
-                validateLogin(userId, password)
+            if (username.isNotEmpty() && password.isNotEmpty()) {
+                validateLogin(username, password)
             } else {
                 // Show a message if any field is empty
                 Toast.makeText(this, "Please enter both user ID and password", Toast.LENGTH_SHORT).show()
@@ -44,8 +44,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateLogin(userId: String, password: String) {
-        val loginRequest = LoginRequest(userId, password)
+    private fun validateLogin(username: String, password: String) {
+        val loginRequest = LoginRequest(username, password)
 
         // Use the JSON-based method in the ApiService
         apiService.loginUserWithJson(loginRequest).enqueue(object : Callback<LoginResponse> {
@@ -53,11 +53,17 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null && loginResponse.success) {
-                        // Save user ID and handle successful login
-                        saveUserId(userId)
-                        onLoginSuccess()
+                        val token = loginResponse.token
+                        if (token != null) {
+                            // Save user ID and token if login is successful
+                            saveUserId(username, token)
+                            onLoginSuccess()
+                        } else {
+                            // Handle the case where the token is null
+                            Toast.makeText(this@LoginActivity, "Token is null. Please try again.", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        // Show an error message
+                        // Show an error message from the response body
                         Toast.makeText(this@LoginActivity, loginResponse?.message ?: "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -73,12 +79,14 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun saveUserId(userId: String) {
+
+    private fun saveUserId(username: String, token: String) {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", true)
-        editor.putString("userId", userId) // Save the user ID
-        editor.apply()
+        editor.putString("username", username)  // Save the user ID
+        editor.putString("token", token)  // Save the authentication token
+        editor.apply()  // Commit changes to SharedPreferences
     }
 
     private fun onLoginSuccess() {
@@ -101,6 +109,6 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        finish()
+        finish()  // Close the login activity to avoid returning to it
     }
 }
