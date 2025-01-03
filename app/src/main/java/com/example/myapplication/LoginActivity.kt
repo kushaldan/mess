@@ -6,10 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.ApiClient
-import com.example.myapplication.ApiService
-import com.example.myapplication.LoginRequest
-import com.example.myapplication.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,7 +53,8 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null && loginResponse.success) {
-                        // Login successful, navigate to HomeActivity
+                        // Save user ID and handle successful login
+                        saveUserId(userId)
                         onLoginSuccess()
                     } else {
                         // Show an error message
@@ -76,14 +73,34 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun onLoginSuccess() {
+    private fun saveUserId(userId: String) {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", true)
+        editor.putString("userId", userId) // Save the user ID
         editor.apply()
+    }
 
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+    private fun onLoginSuccess() {
+        // Check if a redirection target was provided
+        val redirectTo = intent.getStringExtra("redirectTo")
+        if (redirectTo != null) {
+            try {
+                // Dynamically find and navigate to the target activity
+                val targetClass = Class.forName("com.example.myapplication.$redirectTo")
+                val intent = Intent(this, targetClass)
+                startActivity(intent)
+            } catch (e: ClassNotFoundException) {
+                // If the class is not found, fall back to MainActivity
+                Toast.makeText(this, "Redirect target not found, navigating to MainActivity.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            // Default behavior: Navigate to MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
         finish()
     }
 }

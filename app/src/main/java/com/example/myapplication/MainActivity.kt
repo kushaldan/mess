@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 // After changing the state, check if the submit button should be enabled or disabled
                 enableSubmitButton()
-            // Call this method after the state change
+                // Call this method after the state change
             }
 
 
