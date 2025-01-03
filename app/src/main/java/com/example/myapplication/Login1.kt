@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Intent
 
 class Login1 : AppCompatActivity() {
 
@@ -75,10 +76,11 @@ class Login1 : AppCompatActivity() {
                         val token = loginResponse.token
                         Log.d("Login1", "Received token: $token")
                         saveToken(token)
+// Redirect to MainActivity after successful login
+                        val intent = Intent(this@Login1, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
-                        // Show the Calculator Popup
-                        val calculatorPopup = CalculatorPopup(this@Login1)
-                        calculatorPopup.showCalculatorPopup()
                     } else {
                         // Show error message from the server
                         val errorMessage = loginResponse?.message ?: "Invalid username or password"

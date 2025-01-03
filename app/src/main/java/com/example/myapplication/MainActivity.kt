@@ -17,6 +17,10 @@ import com.android.volley.toolbox.Volley
 import com.example.myapplication.R.id
 import org.json.JSONObject
 import java.util.*
+import android.util.Log
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewDetailsButton: Button
     private lateinit var backToHomeButton: Button
     private lateinit var showChartButton: Button
+    private lateinit var logoutButton: Button
     private var selectedDate: String = ""
 
     @SuppressLint("ResourceType")
@@ -53,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         calculatorButton = findViewById(id.calculatorButton)
         backToHomeButton = findViewById(id.backToHomeButton)
         showChartButton = findViewById(id.showChartButton)
+        logoutButton = findViewById(R.id.logoutButton)
 
         // Initialize the Volley request queue
         requestQueue = Volley.newRequestQueue(this)
@@ -64,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         itemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                //mealSpinner.isEnabled = selectedItem == "Meal"
 
                 if (selectedItem == "Meal") {
                     mealSpinner.isEnabled = true
@@ -75,31 +80,16 @@ class MainActivity : AppCompatActivity() {
                     mealSpinner.setSelection(0)
                     priceInput.isEnabled = true   // Enable price input when mealSpinner is disabled
                 }
-                // After changing the state, check if the submit button should be enabled or disabled
                 enableSubmitButton()
-            // Call this method after the state change
             }
-
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 mealSpinner.isEnabled = false
                 mealSpinner.setSelection(0)
                 priceInput.isEnabled = true
                 enableSubmitButton()
-                // Ensure button status is updated
             }
         }
-
-        // Handle selection in mealSpinner
-//        mealSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                itemSpinner.isEnabled = !mealSpinner.isEnabled
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {
-//                // Do nothing
-//            }
-//        }
 
         // Set up button click listeners
         backToHomeButton.setOnClickListener {
@@ -130,6 +120,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         enableSubmitButton()
+        logoutButton.setOnClickListener {
+            // Clear the session (SharedPreferences)
+            val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("isLoggedIn", false)  // Set the logged-in status to false
+            editor.apply()
+
+            // Redirect to LoginActivity after logging out
+            val intent = Intent(this, Login1::class.java)
+            startActivity(intent)
+            finish()  // Close the current activity so user can't go back to the main screen
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -148,22 +150,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableSubmitButton() {
-        submitButton.isEnabled = ((
-                priceInput.isEnabled &&
-                        priceInput.text.isNotEmpty() &&
-                        nameSpinner.selectedItemPosition != 0 &&
-                        selectedDate.isNotEmpty()
-                ) || (
-                mealSpinner.selectedItemPosition != 0 &&
-                        nameSpinner.selectedItemPosition != 0 &&
-                        selectedDate.isNotEmpty()
-                ))
+        submitButton.isEnabled = ((priceInput.isEnabled &&
+                priceInput.text.isNotEmpty() &&
+                nameSpinner.selectedItemPosition != 0 &&
+                selectedDate.isNotEmpty())
+                || (mealSpinner.selectedItemPosition != 0 &&
+                nameSpinner.selectedItemPosition != 0 &&
+                selectedDate.isNotEmpty()))
     }
 
-
-
     private fun submitForm(name: String, item: String, meal: String, expenditure: String, price: String) {
-        val url = "https://legalcount.in/meal/mealupdate.php"
+        // Fetch the saved token from SharedPreferences
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", "") ?: ""
+
+        // Log the token for debugging purposes
+        Log.d("AuthToken", "Token retrieved: $token")
+
+        if (token.isNullOrEmpty()) {
+            Log.e("AuthTokenError", "Token is missing or expired.")
+            Toast.makeText(this, "Unauthorized: Missing or expired token", Toast.LENGTH_LONG).show()
+            // Redirect to login activity
+            val intent = Intent(this, Login1::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        val url = "https://legalcount.in/meal/mealupdateapp.php"
 
         val stringRequest = object : StringRequest(Request.Method.POST, url,
             Response.Listener { response ->
@@ -188,6 +202,13 @@ class MainActivity : AppCompatActivity() {
                     "price" to price,
                     "date" to selectedDate
                 )
+            }
+
+            // Include the token in the headers for authorization
+            override fun getHeaders(): Map<String, String> {
+                val headers = mutableMapOf<String, String>()
+                headers["Authorization"] = "Bearer $token"  // Add token to headers
+                return headers
             }
         }
 

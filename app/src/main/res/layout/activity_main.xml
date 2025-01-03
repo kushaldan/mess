@@ -133,6 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/open_calculator" />
+
         <Button
             android:id="@+id/backToHomeButton"
             android:layout_width="wrap_content"
@@ -143,8 +144,16 @@
             android:id="@+id/showChartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_chart"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:text="@string/show_chart" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:layout_centerInParent="true" />
+
 
 
     </LinearLayout>
