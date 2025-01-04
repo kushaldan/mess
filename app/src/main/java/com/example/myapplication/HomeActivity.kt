@@ -110,6 +110,9 @@ class HomeActivity : AppCompatActivity() {
             val summaryPopup = SummaryPopup(this)
             summaryPopup.showFloatingDetailsPage()
         }
+        placeholderButton.setOnClickListener{
+             navigateTo(NameActivity::class.java)
+        }
     }
 
     // Helper function to avoid repetition of intent creation and start

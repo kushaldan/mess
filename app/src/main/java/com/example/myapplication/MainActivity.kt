@@ -16,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var calculatorButton: Button
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var backToHomeButton: Button
     private lateinit var showChartButton: Button
     private var selectedDate: String = ""
+    private lateinit var apiService: ApiService
+    private lateinit var loggedInUsername: String // This will hold the logged-in username
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,15 @@ class MainActivity : AppCompatActivity() {
 
         mealSpinner.isEnabled = false
 
+        // Initialize Retrofit and ApiService
+        apiService = RetrofitInstance.api
+
+        // Assuming the username is retrieved from the login response or SharedPreferences
+        loggedInUsername = getLoggedInUsername()
+
+        // Fetch names for the logged-in username
+        fetchMemberNames(loggedInUsername)
+
         // Spinner listeners
         setupSpinnerListeners()
 
@@ -60,6 +72,49 @@ class MainActivity : AppCompatActivity() {
 
         enableSubmitButton()
     }
+
+    private fun getLoggedInUsername(): String {
+        // Retrieve the logged-in username (this could be from SharedPreferences or the login response)
+        return "dummy" // Replace this with the actual username
+    }
+
+    private fun fetchMemberNames(username: String) {
+        // Call the API to get member names for the logged-in username
+        apiService.getMemberNames(username).enqueue(object : Callback<MemberNamesResponse> {
+            override fun onResponse(call: Call<MemberNamesResponse>, response: Response<MemberNamesResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val memberNamesResponse = response.body()
+                    if (memberNamesResponse?.success == true && memberNamesResponse.names.isNotEmpty()) {
+                        Log.d("API Response", "Fetched names: ${memberNamesResponse.names}")
+                        populateNameSpinner(memberNamesResponse.names)
+                    } else {
+                        Log.e("API Error", "No names found")
+                        Toast.makeText(this@MainActivity, "No names found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.e("API Error", "Error response: ${response.message()}")
+                    Toast.makeText(this@MainActivity, "Failed to fetch member names: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<MemberNamesResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("API Failure", "Error fetching names: ${t.message}")
+            }
+        })
+    }
+
+
+    private fun populateNameSpinner(memberNames: List<String>) {
+        // Add a default item for the spinner (e.g., "Select Name")
+        val spinnerItems = mutableListOf("Select Name").apply { addAll(memberNames) }
+
+        // Create an ArrayAdapter and set it to the spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        nameSpinner.adapter = adapter
+    }
+
 
     private fun setupSpinnerListeners() {
         itemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -212,7 +267,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun resetForm() {
         expenditureInput.text.clear()
@@ -225,4 +279,3 @@ class MainActivity : AppCompatActivity() {
         enableSubmitButton()
     }
 }
-//working fine ok

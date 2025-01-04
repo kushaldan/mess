@@ -6,16 +6,16 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    // JSON-based request for login
+    // JSON-based login request
     @Headers("Content-Type: application/json")
-    @POST("login1.php") // Relative path for the login endpoint
+    @POST("login1.php") // Endpoint for user login
     fun loginUserWithJson(
         @Body loginRequest: LoginRequest
     ): Call<LoginResponse>
 
-    // Form-urlencoded request for login
+    // Form-urlencoded login request
     @FormUrlEncoded
-    @POST("login1.php") // Same relative path for form-based login
+    @POST("login1.php")
     fun loginUserWithForm(
         @Field("username") username: String,
         @Field("password") password: String
@@ -23,7 +23,7 @@ interface ApiService {
 
     // Form submission with token authentication
     @FormUrlEncoded
-    @POST("mealupdateapp.php") // Relative path for the meal update endpoint
+    @POST("mealupdateapp.php") // Endpoint for meal updates
     fun submitForm(
         @Field("name") name: String,
         @Field("item") item: String,
@@ -33,4 +33,17 @@ interface ApiService {
         @Field("date") date: String,
         @Field("token") token: String
     ): Call<JSONObject>
+
+    // Fetch member names for the logged-in user
+    @GET("getnames.php")
+    fun getMemberNames(
+        @Query("username") username: String
+    ): Call<MemberNamesResponse>
+
+    // API for inserting a name with token-based authentication
+    @POST("insert_name") // Replace with your actual endpoint
+    fun insertName(
+        @Header("Authorization") token: String,  // Token passed in the Authorization header
+        @Body nameRequest: String // Data model for the request body
+    ): Call<InsertNameResponse> // Response model for the API response
 }
