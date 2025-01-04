@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -76,9 +77,10 @@ class Login1 : AppCompatActivity() {
                         Log.d("Login1", "Received token: $token")
                         saveToken(token)
 
-                        // Show the Calculator Popup
-                        val calculatorPopup = CalculatorPopup(this@Login1)
-                        calculatorPopup.showCalculatorPopup()
+                        // Navigate to MainActivity
+                        val intent = Intent(this@Login1, MainActivity::class.java)
+                        startActivity(intent)
+                        finish() // Optional: To prevent going back to the Login1 activity on back press
                     } else {
                         // Show error message from the server
                         val errorMessage = loginResponse?.message ?: "Invalid username or password"
@@ -88,6 +90,7 @@ class Login1 : AppCompatActivity() {
                     // Handle server-side errors
                     Toast.makeText(this@Login1, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
+
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
