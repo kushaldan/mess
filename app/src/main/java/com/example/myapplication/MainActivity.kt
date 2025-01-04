@@ -162,22 +162,25 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
 
+        // Check if token exists
         if (token.isNullOrEmpty()) {
             Toast.makeText(this, "Token not found. Please log in again.", Toast.LENGTH_LONG).show()
             return
         }
 
+        // Validate required fields
         if (name.isEmpty() || item.isEmpty() || selectedDate.isEmpty() || (price.isEmpty() && meal.isEmpty())) {
             Toast.makeText(this, "Please fill all required fields.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Log the parameters being sent to the API
-        Log.d("Form Submission", "Token: Bearer $token")
+        // Log the parameters being sent to the API for debugging
+        Log.d("Form Submission", "Token: $token")
         Log.d("Form Submission", "Name: $name, Item: $item, Meal: $meal, Expenditure: $expenditure, Price: $price, Date: $selectedDate")
 
+        // Call the API to submit the form
         val call = RetrofitInstance.api.submitForm(
-            token = "Bearer $token",
+            token = "$token",
             name = name,
             item = item,
             meal = meal,
@@ -186,13 +189,15 @@ class MainActivity : AppCompatActivity() {
             date = selectedDate
         )
 
+        // Make the network request
         call.enqueue(object : Callback<JSONObject> {
             override fun onResponse(call: Call<JSONObject>, response: Response<JSONObject>) {
                 if (response.isSuccessful) {
+                    // Successful form submission
                     Toast.makeText(this@MainActivity, "Form submitted successfully!", Toast.LENGTH_LONG).show()
-                    resetForm()
+                    resetForm() // Reset form after submission
                 } else {
-                    // Log the error response for debugging purposes
+                    // If submission failed, handle errors
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                     Toast.makeText(this@MainActivity, "Submission failed: $errorMessage", Toast.LENGTH_LONG).show()
                     Log.e("API Error", "Error: ${response.message()}\n$errorMessage")
@@ -200,6 +205,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<JSONObject>, t: Throwable) {
+                // Network failure
                 Toast.makeText(this@MainActivity, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
                 Log.e("Network Error", "Failure: ${t.message}")
             }
