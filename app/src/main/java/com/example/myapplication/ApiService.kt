@@ -25,12 +25,12 @@ interface ApiService {
     @FormUrlEncoded
     @POST("mealupdateapp.php") // Relative path for the meal update endpoint
     fun submitForm(
-        @Header("Authorization") token: String, // Token for authentication
         @Field("name") name: String,
         @Field("item") item: String,
         @Field("meal") meal: String,
         @Field("expenditure") expenditure: String,
         @Field("price") price: String,
-        @Field("date") date: String
+        @Field("date") date: String,
+        @Field("token") token: String
     ): Call<JSONObject>
 }
