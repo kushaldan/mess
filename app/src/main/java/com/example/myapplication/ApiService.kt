@@ -40,13 +40,12 @@ interface ApiService {
         @Query("username") username: String
     ): Call<MemberNamesResponse>
 
-    interface ApiService {
-        @POST("insertName") // Replace with your actual API endpoint
+    @FormUrlEncoded
+        @POST("insert_data.php") // Replace with your actual API endpoint
         fun insertName(
-            @Body requestBody: Map<String, String>,
-            @Header("Authorization") authHeader: String
-        ): Call<LoginResponse>
-    }
+        @Field("name") name: String,
+        @Header("Authorization") token: String
+        ): Call<ApiResponse>
 
     companion object
 
