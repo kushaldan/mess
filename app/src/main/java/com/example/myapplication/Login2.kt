@@ -108,12 +108,12 @@ class Login2 : AppCompatActivity() {
     }
 
     private fun saveLoginData(username: String, token: String) {
-        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("AppPrefs2", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("username", username)  // Save the username
         editor.putString("auth_token", token)   // Save the token
         editor.apply()  // Commit changes asynchronously
-        Log.d("Login1", "Username and Token saved to SharedPreferences")
+        Log.d("Login2", "Username and Token saved to SharedPreferences")
     }
 
 }

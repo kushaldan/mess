@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Retrofit service
         apiService = ApiClient.getApiClient().create(ApiService::class.java)
 
+        // Login button click listener
         loginButton.setOnClickListener {
             val username = userIdEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -78,7 +79,6 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun saveUserId(username: String, token: String) {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)

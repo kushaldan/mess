@@ -8,7 +8,8 @@ data class LoginResponse(
 )
 data class MemberNamesResponse(
     val success: Boolean,
-    val names: List<String>
+    val names: List<String>,
+    val username: String?
 )
 data class NameRequest(
     val username: String,
@@ -17,4 +18,13 @@ data class NameRequest(
 data class InsertNameResponse(
     val success: Boolean,
     val message: String?
+)
+
+data class nameRequest(
+    val nameRequest: nameRequest,
+
+    )
+data class ApiResponse(
+    val success: Boolean,
+    val message: String
 )

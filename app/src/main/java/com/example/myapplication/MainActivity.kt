@@ -16,7 +16,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var calculatorButton: Button
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var showChartButton: Button
     private var selectedDate: String = ""
     private lateinit var apiService: ApiService
-    private lateinit var loggedInUsername: String // This will hold the logged-in username
+    private lateinit var loggedInUsername: String // Dynamically populated logged-in username
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,27 +57,27 @@ class MainActivity : AppCompatActivity() {
         // Initialize Retrofit and ApiService
         apiService = RetrofitInstance.api
 
-        // Assuming the username is retrieved from the login response or SharedPreferences
+        // Retrieve logged-in username
         loggedInUsername = getLoggedInUsername()
 
-        // Fetch names for the logged-in username
+        // Fetch member names for the logged-in username
         fetchMemberNames(loggedInUsername)
 
-        // Spinner listeners
+        // Setup spinner and button listeners
         setupSpinnerListeners()
-
-        // Button click listeners
         setupButtonListeners()
 
         enableSubmitButton()
     }
 
     private fun getLoggedInUsername(): String {
-        // Retrieve the logged-in username (this could be from SharedPreferences or the login response)
-        return "dummy" // Replace this with the actual username
+        // Retrieve the logged-in username from SharedPreferences
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("username", "guest") ?: "guest"
     }
 
     private fun fetchMemberNames(username: String) {
+        Log.d("Username Check", "Fetching names for username: $username")
         // Call the API to get member names for the logged-in username
         apiService.getMemberNames(username).enqueue(object : Callback<MemberNamesResponse> {
             override fun onResponse(call: Call<MemberNamesResponse>, response: Response<MemberNamesResponse>) {
@@ -88,8 +87,8 @@ class MainActivity : AppCompatActivity() {
                         Log.d("API Response", "Fetched names: ${memberNamesResponse.names}")
                         populateNameSpinner(memberNamesResponse.names)
                     } else {
-                        Log.e("API Error", "No names found")
-                        Toast.makeText(this@MainActivity, "No names found", Toast.LENGTH_SHORT).show()
+                        Log.e("API Error", "No names found for $username")
+                        Toast.makeText(this@MainActivity, "No member names found", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e("API Error", "Error response: ${response.message()}")
@@ -104,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
     private fun populateNameSpinner(memberNames: List<String>) {
         // Add a default item for the spinner (e.g., "Select Name")
         val spinnerItems = mutableListOf("Select Name").apply { addAll(memberNames) }
@@ -114,7 +112,6 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         nameSpinner.adapter = adapter
     }
-
 
     private fun setupSpinnerListeners() {
         itemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -217,42 +214,31 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
 
-        // Check if token exists
         if (token.isNullOrEmpty()) {
             Toast.makeText(this, "Token not found. Please log in again.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Validate required fields
         if (name.isEmpty() || item.isEmpty() || selectedDate.isEmpty() || (price.isEmpty() && meal.isEmpty())) {
             Toast.makeText(this, "Please fill all required fields.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Log the parameters being sent to the API for debugging
-        Log.d("Form Submission", "Token: $token")
-        Log.d("Form Submission", "Name: $name, Item: $item, Meal: $meal, Expenditure: $expenditure, Price: $price, Date: $selectedDate")
-
-        // Call the API to submit the form
-        val call = RetrofitInstance.api.submitForm(
-            token = "$token",
+        Log.d("Form Submission", "Submitting with token: $token")
+        apiService.submitForm(
+            token = token,
             name = name,
             item = item,
             meal = meal,
             expenditure = expenditure,
             price = price,
             date = selectedDate
-        )
-
-        // Make the network request
-        call.enqueue(object : Callback<JSONObject> {
+        ).enqueue(object : Callback<JSONObject> {
             override fun onResponse(call: Call<JSONObject>, response: Response<JSONObject>) {
                 if (response.isSuccessful) {
-                    // Successful form submission
                     Toast.makeText(this@MainActivity, "Form submitted successfully!", Toast.LENGTH_LONG).show()
-                    resetForm() // Reset form after submission
+                    resetForm()
                 } else {
-                    // If submission failed, handle errors
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                     Toast.makeText(this@MainActivity, "Submission failed: $errorMessage", Toast.LENGTH_LONG).show()
                     Log.e("API Error", "Error: ${response.message()}\n$errorMessage")
@@ -260,7 +246,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<JSONObject>, t: Throwable) {
-                // Network failure
                 Toast.makeText(this@MainActivity, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
                 Log.e("Network Error", "Failure: ${t.message}")
             }

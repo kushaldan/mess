@@ -40,10 +40,14 @@ interface ApiService {
         @Query("username") username: String
     ): Call<MemberNamesResponse>
 
-    // API for inserting a name with token-based authentication
-    @POST("insert_name") // Replace with your actual endpoint
-    fun insertName(
-        @Header("Authorization") token: String,  // Token passed in the Authorization header
-        @Body nameRequest: String // Data model for the request body
-    ): Call<InsertNameResponse> // Response model for the API response
+    interface ApiService {
+        @POST("insertName") // Replace with your actual API endpoint
+        fun insertName(
+            @Body requestBody: Map<String, String>,
+            @Header("Authorization") authHeader: String
+        ): Call<LoginResponse>
+    }
+
+    companion object
+
 }
