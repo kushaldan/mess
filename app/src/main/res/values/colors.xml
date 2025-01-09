@@ -10,4 +10,10 @@
     <color name="buttonBackgroundColor">#FF5733</color>
     <color name="buttonTextColor">#FFFFFF</color>
     <color name="bordercolor">#FF056458</color>
+    <color name="primary_color">#6200EE</color>
+    <color name="secondary_color">#03DAC5</color>
+    <color name="error_color">#FF5722</color>
+    <color name="primary_text_color">#212121</color>
+    <color name="background_color">#F5F5F5</color>
+
 </resources>

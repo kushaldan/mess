@@ -2,11 +2,10 @@
     <!-- Name array for the first Spinner -->
     <string-array name="name_array">
         <item>Select a name</item>
-        <item>Badal Dan</item>
-        <item>Nandjee Prasad</item>
-        <item>Chittaranjan Das</item>
-        <item>Adwaita Mandal</item>
-    </string-array>
+        <item>Member 1</item>
+        <item>Member 2</item>
+        <item>Member 3</item>
+            </string-array>
 
     <!-- Item array for the second Spinner -->
     <string-array name="item_array">
@@ -14,8 +13,6 @@
         <item>Grocery</item>
         <item>Vegetable</item>
         <item>Non-Veg</item>
-        <item>Chicken</item>
-        <item>Fish</item>
         <item>Sweets</item>
         <item>Others</item>
         <item>Admin</item>

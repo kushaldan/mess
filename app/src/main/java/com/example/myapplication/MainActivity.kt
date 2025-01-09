@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         viewDetailsButton = findViewById(R.id.viewDetailsButton)
         calculatorButton = findViewById(R.id.calculatorButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
-        showChartButton = findViewById(R.id.showChartButton)
+       // showChartButton = findViewById(R.id.showChartButton)
 
         mealSpinner.isEnabled = false
 
@@ -156,9 +156,14 @@ class MainActivity : AppCompatActivity() {
             calculatorPopup.showCalculatorPopup()
         }
 
-        showChartButton.setOnClickListener {
-            val chart = Chart(this)
-            chart.showChartDialog()
+//        showChartButton.setOnClickListener {
+//            val chart = Chart(this)
+//            chart.showChartDialog()
+//        }
+        viewDetailsButton.setOnClickListener {
+            // Show the floating details page (PopupWindow)
+            val detailsPopup = DetailsPopup(this)
+            detailsPopup.showFloatingDetailsPage()
         }
     }
 
