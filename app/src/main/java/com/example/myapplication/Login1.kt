@@ -72,10 +72,11 @@ class Login1 : AppCompatActivity() {
                         // Successful login
                         Toast.makeText(this@Login1, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                        // Save the token for future use
+                        // Save the token and username for future use
                         val token = loginResponse.token
-                        Log.d("Login1", "Received token: $token")
-                        saveToken(token)
+                        val loggedInUsername = loginResponse.username
+                        Log.d("Login1", "Received token: $token, username: $loggedInUsername")
+                        saveLoginDetails(token, loggedInUsername)
 
                         // Navigate to MainActivity
                         val intent = Intent(this@Login1, MainActivity::class.java)
@@ -90,7 +91,6 @@ class Login1 : AppCompatActivity() {
                     // Handle server-side errors
                     Toast.makeText(this@Login1, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
-
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -103,15 +103,17 @@ class Login1 : AppCompatActivity() {
         })
     }
 
-    // Save the token for future use (e.g., in SharedPreferences)
-    private fun saveToken(token: String?) {
-        if (token != null) {
+    // Save the token and username for future use (e.g., in SharedPreferences)
+    private fun saveLoginDetails(token: String?, username: String?) {
+        if (token != null && username != null) {
             val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
-            editor.putString("auth_token", token)
+            editor.putString("auth_token", token) // Save token
+            editor.putString("username", username) // Save username
             editor.apply()
-            Log.d("Login1", "Token saved to SharedPreferences")
+            Log.d("Login1", "Token and username saved to SharedPreferences")
+        } else {
+            Log.e("Login1", "Token or username is null; nothing was saved")
         }
     }
 }
-//token is generated and login is working fine

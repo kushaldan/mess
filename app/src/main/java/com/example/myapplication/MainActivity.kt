@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var backToHomeButton: Button
     private lateinit var showChartButton: Button
     private var selectedDate: String = ""
+    private lateinit var apiService: ApiService
+    private lateinit var loggedInUsername: String // Dynamically populated logged-in username
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +50,67 @@ class MainActivity : AppCompatActivity() {
         viewDetailsButton = findViewById(R.id.viewDetailsButton)
         calculatorButton = findViewById(R.id.calculatorButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
-        showChartButton = findViewById(R.id.showChartButton)
+       // showChartButton = findViewById(R.id.showChartButton)
 
         mealSpinner.isEnabled = false
 
-        // Spinner listeners
-        setupSpinnerListeners()
+        // Initialize Retrofit and ApiService
+        apiService = RetrofitInstance.api
 
-        // Button click listeners
+        // Retrieve logged-in username
+        loggedInUsername = getLoggedInUsername()
+
+        // Fetch member names for the logged-in username
+        fetchMemberNames(loggedInUsername)
+
+        // Setup spinner and button listeners
+        setupSpinnerListeners()
         setupButtonListeners()
 
         enableSubmitButton()
+    }
+
+    private fun getLoggedInUsername(): String {
+        // Retrieve the logged-in username from SharedPreferences
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("username", "guest") ?: "guest"
+    }
+
+    private fun fetchMemberNames(username: String) {
+        Log.d("Username Check", "Fetching names for username: $username")
+        // Call the API to get member names for the logged-in username
+        apiService.getMemberNames(username).enqueue(object : Callback<MemberNamesResponse> {
+            override fun onResponse(call: Call<MemberNamesResponse>, response: Response<MemberNamesResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val memberNamesResponse = response.body()
+                    if (memberNamesResponse?.success == true && memberNamesResponse.names.isNotEmpty()) {
+                        Log.d("API Response", "Fetched names: ${memberNamesResponse.names}")
+                        populateNameSpinner(memberNamesResponse.names)
+                    } else {
+                        Log.e("API Error", "No names found for $username")
+                        Toast.makeText(this@MainActivity, "No member names found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.e("API Error", "Error response: ${response.message()}")
+                    Toast.makeText(this@MainActivity, "Failed to fetch member names: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<MemberNamesResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("API Failure", "Error fetching names: ${t.message}")
+            }
+        })
+    }
+
+    private fun populateNameSpinner(memberNames: List<String>) {
+        // Add a default item for the spinner (e.g., "Select Name")
+        val spinnerItems = mutableListOf("Select Name").apply { addAll(memberNames) }
+
+        // Create an ArrayAdapter and set it to the spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        nameSpinner.adapter = adapter
     }
 
     private fun setupSpinnerListeners() {
@@ -104,9 +156,14 @@ class MainActivity : AppCompatActivity() {
             calculatorPopup.showCalculatorPopup()
         }
 
-        showChartButton.setOnClickListener {
-            val chart = Chart(this)
-            chart.showChartDialog()
+//        showChartButton.setOnClickListener {
+//            val chart = Chart(this)
+//            chart.showChartDialog()
+//        }
+        viewDetailsButton.setOnClickListener {
+            // Show the floating details page (PopupWindow)
+            val detailsPopup = DetailsPopup(this)
+            detailsPopup.showFloatingDetailsPage()
         }
     }
 
@@ -162,42 +219,31 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
 
-        // Check if token exists
         if (token.isNullOrEmpty()) {
             Toast.makeText(this, "Token not found. Please log in again.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Validate required fields
         if (name.isEmpty() || item.isEmpty() || selectedDate.isEmpty() || (price.isEmpty() && meal.isEmpty())) {
             Toast.makeText(this, "Please fill all required fields.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Log the parameters being sent to the API for debugging
-        Log.d("Form Submission", "Token: $token")
-        Log.d("Form Submission", "Name: $name, Item: $item, Meal: $meal, Expenditure: $expenditure, Price: $price, Date: $selectedDate")
-
-        // Call the API to submit the form
-        val call = RetrofitInstance.api.submitForm(
-            token = "$token",
+        Log.d("Form Submission", "Submitting with token: $token")
+        apiService.submitForm(
+            token = token,
             name = name,
             item = item,
             meal = meal,
             expenditure = expenditure,
             price = price,
             date = selectedDate
-        )
-
-        // Make the network request
-        call.enqueue(object : Callback<JSONObject> {
+        ).enqueue(object : Callback<JSONObject> {
             override fun onResponse(call: Call<JSONObject>, response: Response<JSONObject>) {
                 if (response.isSuccessful) {
-                    // Successful form submission
                     Toast.makeText(this@MainActivity, "Form submitted successfully!", Toast.LENGTH_LONG).show()
-                    resetForm() // Reset form after submission
+                    resetForm()
                 } else {
-                    // If submission failed, handle errors
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                     Toast.makeText(this@MainActivity, "Submission failed: $errorMessage", Toast.LENGTH_LONG).show()
                     Log.e("API Error", "Error: ${response.message()}\n$errorMessage")
@@ -205,13 +251,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<JSONObject>, t: Throwable) {
-                // Network failure
                 Toast.makeText(this@MainActivity, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
                 Log.e("Network Error", "Failure: ${t.message}")
             }
         })
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun resetForm() {
@@ -225,4 +269,3 @@ class MainActivity : AppCompatActivity() {
         enableSubmitButton()
     }
 }
-//working fine ok

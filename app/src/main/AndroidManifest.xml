@@ -38,6 +38,9 @@
         <activity android:name=".Login1" />
         <activity android:name="CalculatorPopup"
             tools:ignore="Instantiatable" />
+        <activity android:name=".NameActivity"
+            android:exported="true"/>
+        <activity android:name=".Login2" />
 
 
     </application>
