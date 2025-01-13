@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.kushal.mealapp
 
 data class LoginRequest(
     val username: String,

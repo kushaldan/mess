@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.kushal.mealapp
 
 import android.content.Intent
 import android.content.res.ColorStateList

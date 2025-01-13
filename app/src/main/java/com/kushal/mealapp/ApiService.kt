@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.kushal.mealapp
 
 import org.json.JSONObject
 import retrofit2.Call

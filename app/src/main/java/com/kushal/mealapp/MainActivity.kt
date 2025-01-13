@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.kushal.mealapp
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog

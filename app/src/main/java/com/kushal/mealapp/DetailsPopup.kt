@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.kushal.mealapp
 
 import android.content.Context
 import android.view.LayoutInflater
