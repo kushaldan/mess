@@ -44,6 +44,12 @@ class HomeActivity : AppCompatActivity() {
         homeButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F"))
         rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
 
+        placeholderButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F"))
+        rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
+
+        viewDetailsButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00ff00"))
+        rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
+
         // Initialize WebView for chart
         val chartWebView = WebView(this)
         chartWebView.settings.apply {

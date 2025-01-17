@@ -38,6 +38,9 @@
         <activity android:name="com.kushal.mealapp.NameActivity"
             android:exported="true"/>
         <activity android:name="com.kushal.mealapp.Login2" />
+        <activity android:name="com.kushal.mealapp.MealRecyclerView" />
+        <activity android:name="com.kushal.mealapp.MealAdapter"
+            tools:ignore="Instantiatable" />
 
 
     </application>
