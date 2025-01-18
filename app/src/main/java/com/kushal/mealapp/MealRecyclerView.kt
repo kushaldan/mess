@@ -14,7 +14,7 @@ class MealRecyclerView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_meal_list)
+        setContentView(R.layout.recyclerview)
 
         // Initialize views
         mealRecyclerView = findViewById(R.id.mealRecyclerView)
