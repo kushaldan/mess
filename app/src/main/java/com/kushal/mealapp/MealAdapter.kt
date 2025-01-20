@@ -10,6 +10,7 @@ class MealAdapter(private val mealList: List<Meal>) :
     RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
 
     // ViewHolder class to hold and manage item views
+
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         val mealTextView: TextView = itemView.findViewById(R.id.mealTextView)

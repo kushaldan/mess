@@ -37,6 +37,15 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
+
 }
 
 dependencies {
@@ -59,7 +68,11 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
-
+    implementation ("androidx.compose.ui:ui:1.5.3")
+    implementation ("androidx.compose.material:material:1.5.3")
+    implementation ("androidx.compose.ui:ui-tooling:1.5.3")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation ("androidx.activity:activity-compose:1.8.1")
 
 
 }
