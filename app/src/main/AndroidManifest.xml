@@ -41,6 +41,10 @@
         <activity android:name="com.kushal.mealapp.MealRecyclerView" />
         <activity android:name="com.kushal.mealapp.MealAdapter"
             tools:ignore="Instantiatable" />
+        <activity android:name="com.kushal.mealapp.database.MyApp"
+            tools:ignore="Instantiatable" />
+        <activity android:name="com.kushal.mealapp.database.DataMainActivity"
+        tools:ignore="Instantiatable"/>
 
 
     </application>

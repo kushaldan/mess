@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 
 @Composable
+
 fun MealScreen(viewModel: MealViewModel) {
     // Collecting state
     val meals by viewModel.allMeals.collectAsState(initial = emptyList())

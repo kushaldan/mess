@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         setupButtonListeners()
 
         enableSubmitButton()
+
     }
 
     private fun getLoggedInUsername(): String {

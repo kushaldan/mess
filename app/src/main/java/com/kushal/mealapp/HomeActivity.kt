@@ -13,6 +13,8 @@ import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.kushal.mealapp.database.DataMainActivity
+import com.kushal.mealapp.database.MyApp
 
 class HomeActivity : AppCompatActivity() {
 
