@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -58,7 +57,8 @@ class SignupActivity : AppCompatActivity() {
     private fun submitForm(messName: String, username: String, password: String) {
         val url = "https://legalcount.in/meal/signup.php"
 
-        val stringRequest = object : StringRequest(Request.Method.POST, url,
+        val stringRequest = object : StringRequest(
+            Method.POST, url,
             Response.Listener { response ->
                 try {
                     val jsonResponse = JSONObject(response)

@@ -1,14 +1,13 @@
 package com.kushal.mealapp.database
 
 //noinspection SuspiciousImport
-import android.R
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "meal")
 data class Meal(
     @PrimaryKey(autoGenerate = true)
-    val id: Long=0,
+    val id: Int =0,
     val date: String,
     val name: String,
     val amount: Double
@@ -17,7 +16,7 @@ data class Meal(
 @Entity(tableName = "deposit")
 data class Deposit(
     @PrimaryKey(autoGenerate = true)
-    val id: Long=0,
+    val id: Int=0,
     val name: String,
     val date: String,
     val amount: Double

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -13,6 +12,7 @@ fun AddMealForm(viewModel: MealViewModel) {
     var name by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -45,15 +45,18 @@ fun AddMealForm(viewModel: MealViewModel) {
         // Amount Input
         OutlinedTextField(
             value = amount,
-            onValueChange = { amount = it },
+            onValueChange = {
+                amount = it
+                showError = amount.isNotEmpty() && amount.toDoubleOrNull() == null
+            },
             label = { Text("Amount") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = MaterialTheme.colors.primary
             ),
-            isError = amount.toDoubleOrNull() == null // Highlight invalid input
+            isError = showError // Highlight invalid input
         )
-        if (amount.isNotEmpty() && amount.toDoubleOrNull() == null) {
+        if (showError) {
             Text(
                 text = "Please enter a valid number for the amount",
                 color = MaterialTheme.colors.error,
@@ -65,13 +68,19 @@ fun AddMealForm(viewModel: MealViewModel) {
         Button(
             onClick = {
                 if (name.isNotEmpty() && date.isNotEmpty() && amount.toDoubleOrNull() != null) {
-                    val meal = Meal(name = name, date = date, amount = amount.toDouble())
+                    val meal = Meal(
+                        id = 0,
+                        name = name,
+                        date = date,
+                        amount = amount.toDouble() // Convert amount to Double
+                    )
                     viewModel.addMeal(meal)
 
                     // Reset the fields after submission
                     name = ""
                     date = ""
                     amount = ""
+                    showError = false
                 }
             },
             enabled = name.isNotEmpty() && date.isNotEmpty() && amount.toDoubleOrNull() != null,
@@ -80,5 +89,4 @@ fun AddMealForm(viewModel: MealViewModel) {
             Text("Add Meal")
         }
     }
-
 }
