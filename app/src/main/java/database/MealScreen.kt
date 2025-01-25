@@ -19,7 +19,7 @@ fun MealScreen(viewModel: MealViewModel) {
     // Collecting state
     val meals by viewModel.allMeals.collectAsState(initial = emptyList())
     val deposits by viewModel.allDeposits.collectAsState(initial = emptyList())
-
+    AddMealForm(viewModel = viewModel)
     Column(Modifier.padding(16.dp)) {
         Text("Meals", style = MaterialTheme.typography.h6)
         LazyColumn {
