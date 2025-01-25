@@ -1,6 +1,7 @@
-package com.kushal.mealapp.database
+package com.kushal.mealapp
 
 import androidx.room.*
+
 import kotlinx.coroutines.flow.Flow
 
 @Dao

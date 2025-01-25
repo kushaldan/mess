@@ -1,16 +1,18 @@
-package com.kushal.mealapp.database
+package com.kushal.mealapp
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.kushal.mealapp.Meal
 
 @Composable
 fun AddMealForm(viewModel: MealViewModel) {
     // Input state variables
     var name by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
+    var mealType by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
 
@@ -42,6 +44,17 @@ fun AddMealForm(viewModel: MealViewModel) {
             )
         )
 
+        // Meal Type Input
+        OutlinedTextField(
+            value = mealType,
+            onValueChange = { mealType = it },
+            label = { Text("Meal Type") },
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = MaterialTheme.colors.primary
+            )
+        )
+
         // Amount Input
         OutlinedTextField(
             value = amount,
@@ -67,11 +80,12 @@ fun AddMealForm(viewModel: MealViewModel) {
         // Submit Button
         Button(
             onClick = {
-                if (name.isNotEmpty() && date.isNotEmpty() && amount.toDoubleOrNull() != null) {
+                if (name.isNotEmpty() && date.isNotEmpty() && mealType.isNotEmpty() && amount.toDoubleOrNull() != null) {
                     val meal = Meal(
                         id = 0,
                         name = name,
                         date = date,
+                        meal = mealType,  // Use the new mealType field
                         amount = amount.toDouble() // Convert amount to Double
                     )
                     viewModel.addMeal(meal)
@@ -79,11 +93,12 @@ fun AddMealForm(viewModel: MealViewModel) {
                     // Reset the fields after submission
                     name = ""
                     date = ""
+                    mealType = ""
                     amount = ""
                     showError = false
                 }
             },
-            enabled = name.isNotEmpty() && date.isNotEmpty() && amount.toDoubleOrNull() != null,
+            enabled = name.isNotEmpty() && date.isNotEmpty() && mealType.isNotEmpty() && amount.toDoubleOrNull() != null,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Add Meal")

@@ -1,13 +1,11 @@
 package com.kushal.mealapp
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONObject
 import java.util.*
 
 class AddMealActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.kushal.mealapp.database
+package com.kushal.mealapp
 import android.app.Application
 import androidx.room.Room
 

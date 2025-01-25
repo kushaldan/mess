@@ -1,4 +1,4 @@
-package com.kushal.mealapp.database
+package com.kushal.mealapp
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
@@ -19,7 +19,7 @@ fun MealScreen(viewModel: MealViewModel) {
     // Collecting state
     val meals by viewModel.allMeals.collectAsState(initial = emptyList())
     val deposits by viewModel.allDeposits.collectAsState(initial = emptyList())
-    AddMealForm(viewModel = viewModel)
+
     Column(Modifier.padding(16.dp)) {
         Text("Meals", style = MaterialTheme.typography.h6)
         LazyColumn {

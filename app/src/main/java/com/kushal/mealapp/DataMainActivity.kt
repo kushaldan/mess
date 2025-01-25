@@ -1,14 +1,10 @@
-package com.kushal.mealapp.database
+package com.kushal.mealapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.ViewModelProvider
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 class DataMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

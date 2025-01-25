@@ -1,8 +1,8 @@
-package com.kushal.mealapp.database
-
+package com.kushal.mealapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

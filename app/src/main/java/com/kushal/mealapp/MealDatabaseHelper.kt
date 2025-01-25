@@ -18,6 +18,7 @@ class MealDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         const val COLUMN_NAME = "name"
         const val COLUMN_MEAL = "meal"
         const val COLUMN_DATE = "date"
+        const val COLUMN_AMOUNT = "amount" // Added amount column
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -27,7 +28,8 @@ class MealDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                     $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                     $COLUMN_NAME TEXT NOT NULL,
                     $COLUMN_MEAL TEXT NOT NULL,
-                    $COLUMN_DATE TEXT NOT NULL
+                    $COLUMN_DATE TEXT NOT NULL,
+                    $COLUMN_AMOUNT REAL NOT NULL
                 );
             """
             db.execSQL(createTableQuery)
@@ -52,6 +54,7 @@ class MealDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                 put(COLUMN_NAME, name)
                 put(COLUMN_MEAL, meal)
                 put(COLUMN_DATE, date)
+                 // Insert the amount value
             }
             val result = db.insert(TABLE_NAME, null, contentValues)
             result != -1L  // Return true if insert is successful
@@ -75,7 +78,8 @@ class MealDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                         val mealData = mapOf(
                             COLUMN_NAME to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                             COLUMN_MEAL to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEAL)),
-                            COLUMN_DATE to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE))
+                            COLUMN_DATE to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)),
+                            COLUMN_AMOUNT to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AMOUNT)) // Add amount to map
                         )
                         meals.add(mealData)
                     } while (cursor.moveToNext())
@@ -102,7 +106,8 @@ class MealDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                         val name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME))
                         val meal = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEAL))
                         val date = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE))
-                        mealList.add(Meal(id, name, meal, date))
+                        val amount = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_AMOUNT)) // Fetch amount as Double
+                        mealList.add(Meal(id, name, meal, date, amount)) // Create Meal object with amount
                     } while (cursor.moveToNext())
                 }
             }

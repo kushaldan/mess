@@ -13,26 +13,14 @@ import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.ComposeView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.kushal.mealapp.database.MealScreen
-import com.kushal.mealapp.database.MealViewModel
 
 class HomeActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)  // This line still keeps XML views for non-Compose content.
-
-        // Initialize MealViewModel
-        val mealViewModel = ViewModelProvider(this).get(MealViewModel::class.java)
+        setContentView(R.layout.activity_home)
 
         val homeButton: Button = findViewById(R.id.homeButton)
         val addMealButton: Button = findViewById(R.id.addMealButton)
@@ -45,32 +33,33 @@ class HomeActivity : AppCompatActivity() {
         val signUpButton: Button = findViewById(R.id.signUpButton)
         val loginButton: Button = findViewById(R.id.loginButton)
         val rootView = findViewById<View>(android.R.id.content)
+        val composeView = findViewById<ComposeView>(R.id.composeView)
 
-        // Update button and rootView colors
+        // Initialize MealViewModel
+        //val mealViewModel = ViewModelProvider(this).get(MealViewModel::class.java)
+
+        // Button click listeners
+
+
+        // Button click listeners
+        signUpButton.setOnClickListener {
+            startActivity(Intent(this, SignupActivity::class.java))
+        }
+        loginButton.setOnClickListener {
+            startActivity(Intent(this, Login1::class.java))
+        }
+
+
         homeButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F"))
         rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
+
         placeholderButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EB940F"))
         rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
+
         viewDetailsButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00ff00"))
         rootView.setBackgroundColor(Color.parseColor("#AAA1CD"))
 
-        // Button click listeners for actions
-        expSummaryButton.setOnClickListener {
-            // Navigate to MealScreen using Jetpack Compose
-            setContent {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = "meal_page"
-                ) {
-                    composable("meal_page") {
-                        MealScreen(viewModel = mealViewModel) // Pass the MealViewModel to MealScreen
-                    }
-                }
-            }
-        }
-
-        // WebView initialization for chart
+        // Initialize WebView for chart
         val chartWebView = WebView(this)
         chartWebView.settings.apply {
             javaScriptEnabled = true
@@ -91,6 +80,7 @@ class HomeActivity : AppCompatActivity() {
             ): Boolean {
                 return false // Allow the WebView to handle URL loading
             }
+
         }
 
         // Load the chart URL
@@ -107,14 +97,6 @@ class HomeActivity : AppCompatActivity() {
         chartContainer.addView(chartWebView)
 
         // Button click listeners for other actions
-        signUpButton.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
-        }
-
-        loginButton.setOnClickListener {
-            startActivity(Intent(this, Login1::class.java))
-        }
-
         homeButton.setOnClickListener {
             if (isLoggedIn()) {
                 navigateTo(MainActivity::class.java)
@@ -122,14 +104,15 @@ class HomeActivity : AppCompatActivity() {
                 navigateTo(Login1::class.java)
             }
         }
-
         addMealButton.setOnClickListener { navigateTo(AddMealActivity::class.java) }
         addExpenditureButton.setOnClickListener { navigateTo(AddExpenditureActivity::class.java) }
         addDepositButton.setOnClickListener { navigateTo(AddDepositActivity::class.java) }
         viewDetailsButton.setOnClickListener { DetailsPopup(this).showFloatingDetailsPage() }
+        expSummaryButton.setOnClickListener { navigateTo(MealActivity::class.java) }
         placeholderButton.setOnClickListener { navigateTo(NameActivity::class.java) }
-    }
 
+
+    }
     // Helper function to navigate between activities
     private fun <T> navigateTo(destination: Class<T>) {
         startActivity(Intent(this, destination))
