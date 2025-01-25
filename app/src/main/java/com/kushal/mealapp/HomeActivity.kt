@@ -13,7 +13,14 @@ import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class HomeActivity : AppCompatActivity() {
 
@@ -33,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
         val signUpButton: Button = findViewById(R.id.signUpButton)
         val loginButton: Button = findViewById(R.id.loginButton)
         val rootView = findViewById<View>(android.R.id.content)
+        val composeView = findViewById<ComposeView>(R.id.composeView)
 
         // Button click listeners
         signUpButton.setOnClickListener {

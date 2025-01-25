@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -133,8 +132,8 @@
                 android:background="@drawable/button_border"
                 android:backgroundTint="@android:color/darker_gray"
                 android:text="Add Member"
-                android:textSize="10sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="10sp" />
 
         </GridLayout>
 
@@ -142,8 +141,14 @@
         <FrameLayout
             android:id="@+id/chartContainer"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_weight="1" />
+            android:layout_height="400dp" />
+
+        <!-- ComposeView to display Jetpack Compose content -->
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/composeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 
