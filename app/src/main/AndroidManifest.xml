@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myapplication">
+    package="com.kushal.mealapp">
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" android:targetSdkVersion="33" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" android:targetSdkVersion="33" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" android:targetSdkVersion="33" />
 
     <application
         android:allowBackup="true"
@@ -14,33 +11,40 @@
         android:theme="@style/Theme.MyApplication">
 
         <!-- MainActivity declaration with exported attribute -->
-        <activity android:name=".HomeActivity"
+        <activity android:name="com.kushal.mealapp.HomeActivity"
             android:exported="true"> <!-- Add android:exported here -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.kushal.mealapp.MainActivity"
             android:exported="true"/>
-        <activity android:name=".AddMealActivity"
+        <activity android:name="com.kushal.mealapp.AddMealActivity"
             android:exported="true"/>
-        <activity android:name=".AddExpenditureActivity"
+        <activity android:name="com.kushal.mealapp.AddExpenditureActivity"
             android:exported="true"/>
-        <activity android:name=".AddDepositActivity"
+        <activity android:name="com.kushal.mealapp.AddDepositActivity"
             android:exported="true"/>
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.kushal.mealapp.LoginActivity"
             android:exported="true"/>
-        <activity android:name=".SummaryPopup"
+        <activity android:name="com.kushal.mealapp.SummaryPopup"
             android:exported="true"
             tools:ignore="Instantiatable" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".Login1" />
-        <activity android:name="CalculatorPopup"
+        <activity android:name="com.kushal.mealapp.SignupActivity" />
+        <activity android:name="com.kushal.mealapp.Login1" />
+        <activity android:name="com.kushal.mealapp.CalculatorPopup"
             tools:ignore="Instantiatable" />
-        <activity android:name=".NameActivity"
+        <activity android:name="com.kushal.mealapp.NameActivity"
             android:exported="true"/>
-        <activity android:name=".Login2" />
+        <activity android:name="com.kushal.mealapp.Login2" />
+        <activity android:name="com.kushal.mealapp.MealRecyclerView" />
+        <activity android:name="com.kushal.mealapp.MealAdapter"
+            tools:ignore="Instantiatable" />
+        <activity android:name="com.kushal.mealapp.database.MyApp"
+            tools:ignore="Instantiatable" />
+        <activity android:name="com.kushal.mealapp.database.DataMainActivity"
+        tools:ignore="Instantiatable"/>
 
 
     </application>
